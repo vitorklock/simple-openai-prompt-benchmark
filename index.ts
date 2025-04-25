@@ -1,5 +1,5 @@
 import OpenAI from "openai";
-import { ChatCompletionMessageParam } from "openai/resources/index.mjs";
+import { ChatCompletionMessageParam, ChatModel } from "openai/resources/index.mjs";
 import _ from 'lodash';
 
 interface ITestCase {
@@ -14,6 +14,8 @@ interface IResult {
 const OPENAI_API_KEY = ""
 
 const TEST_COUNT = 5;
+
+const MODEL: ChatModel = 'gpt-4o-mini';
 
 // const PROMPT = 'You analyze a text and classify it as either a "plan" or a "message." You return the result as a JSON object in the following format:  \n`{ "type": "message" | "plan" }`';
 
@@ -175,7 +177,7 @@ export function generateSimpleUUID(length: number = 16) {
 
 async function getCompletion(test: Array<ChatCompletionMessageParam>): Promise<IResult> {
     const completion = await openai.chat.completions.create({
-        model: 'gpt-4o-mini',
+        model: MODEL,
         messages: [
             { role: 'system', content: generateSimpleUUID(8) + ' ' + PROMPT },
             ...test
